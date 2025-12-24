@@ -1,12 +1,14 @@
-/******** TODO APP ********/
+/* TODO APP */
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 const taskList = document.getElementById("taskList");
 
-function saveTasks() {
+function saveTasks() 
+{
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-function addTask() {
+function addTask()
+ {
     let text = taskInput.value;
     let priority = priority.value;
     let date = dateInput.value;
@@ -19,13 +21,17 @@ function addTask() {
     render();
 }
 
-function render(filter = "all") {
+function render(filter = "all") 
+{
     taskList.innerHTML = "";
     let done = 0;
 
-    tasks.forEach((t, i) => {
-        if (filter === "completed" && !t.completed) return;
-        if (filter === "pending" && t.completed) return;
+    tasks.forEach((t, i) =>
+         {
+        if (filter === "completed" && !t.completed) 
+            return;
+        if (filter === "pending" && t.completed) 
+            return;
 
         let div = document.createElement("div");
         div.className = `task ${t.completed ? "completed" : ""} ${t.priority.toLowerCase()}`;
@@ -44,23 +50,27 @@ function render(filter = "all") {
     progressBar.style.width = tasks.length ? (done / tasks.length) * 100 + "%" : "0%";
 }
 
-function toggle(i) {
+function toggle(i) 
+{
     tasks[i].completed = !tasks[i].completed;
     saveTasks();
     render();
 }
 
-function del(i) {
+function del(i)
+ {
     tasks.splice(i, 1);
     saveTasks();
     render();
 }
 
-function filterTasks(type) {
+function filterTasks(type)
+ {
     render(type);
 }
 
-function searchTask() {
+function searchTask() 
+{
     let q = search.value.toLowerCase();
     document.querySelectorAll(".task").forEach(t => {
         t.style.display = t.innerText.toLowerCase().includes(q) ? "block" : "none";
@@ -69,7 +79,7 @@ function searchTask() {
 
 render();
 
-/******** STICKY NOTE EDITOR ********/
+/* STICKY NOTE EDITOR */
 const noteText = document.getElementById("noteText");
 const editBtn = document.getElementById("editNote");
 const saveBtn = document.getElementById("saveNote");
@@ -78,21 +88,23 @@ noteText.value = localStorage.getItem("stickyNote") || "";
 noteText.setAttribute("readonly", true);
 saveBtn.style.display = "none";
 
-editBtn.onclick = () => {
+editBtn.onclick = () => 
+    {
     noteText.removeAttribute("readonly");
     noteText.focus();
     editBtn.style.display = "none";
     saveBtn.style.display = "inline";
 };
 
-saveBtn.onclick = () => {
+saveBtn.onclick = () => 
+    {
     localStorage.setItem("stickyNote", noteText.value);
     noteText.setAttribute("readonly", true);
     saveBtn.style.display = "none";
     editBtn.style.display = "inline";
 };
 
-/******** DRAG & MOVE STICKY NOTE ********/
+/* DRAG & MOVE STICKY NOTE */
 const stickyNote = document.getElementById("stickyNote");
 const noteHeader = document.getElementById("noteHeader");
 
@@ -104,19 +116,23 @@ if (pos) {
 
 let dragging = false, offsetX = 0, offsetY = 0;
 
-noteHeader.addEventListener("mousedown", e => {
+noteHeader.addEventListener("mousedown", e => 
+    {
     dragging = true;
     offsetX = e.clientX - stickyNote.offsetLeft;
     offsetY = e.clientY - stickyNote.offsetTop;
 });
 
-document.addEventListener("mousemove", e => {
-    if (!dragging) return;
+document.addEventListener("mousemove", e => 
+    {
+    if (!dragging)
+         return;
     stickyNote.style.left = e.clientX - offsetX + "px";
     stickyNote.style.top = e.clientY - offsetY + "px";
 });
 
-document.addEventListener("mouseup", () => {
+document.addEventListener("mouseup", () => 
+    {
     if (!dragging) return;
     dragging = false;
     localStorage.setItem("stickyPosition", JSON.stringify({
